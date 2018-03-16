@@ -19,41 +19,42 @@ factor = -2
 nr1x = -1
 nr1y = -1
 
-if (factor == -2) {
+IfNotEqual, factor, -2
+{
 	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr1.bmp ; never use PNG!
 	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
 	FileAppend found something with nr1 `n, *
 	factor = -1
 }
 
-if (factor == -2) {
+IfNotEqual, factor, -2
+{
 	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr2.bmp ; never use PNG!
 	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
 	FileAppend found something with nr2 `n, *
 	factor = 0
 }
 
-if (factor == -2) {
+IfNotEqual, factor, -2
+{
 	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr3.bmp ; never use PNG!
 	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
 	FileAppend found something with nr3 `n, *
 	factor = 1
 }
 
-
 ; search on current monitor with maximum range
 ImageSearch, nr1x, nr1y, 0, 0, A_ScreenWidth, A_ScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr2.bmp ; never use PNG!
-FileAppend Picture nr2 found at %nr1x%:%nr1y% `n, *
+FileAppend Picture found at %nr1x%:%nr1y% `n, * ; check result ... before doing something else
 
 ; MouseMove, nr1x, nr1y
-
-FileAppend Current screen size %A_ScreenWidth%:%A_ScreenHeight% `n, *
-
 ; ControlClick, , "Total Commander", "2" ; not sure how to use this .. so we rely now on relative coords
 
+/*
 if (nr1x != -1 && nr1y != -1) {
 	FileAppend found something `n, *
 }
 else {
 	FileAppend found nothing `n, *
 }
+*/
