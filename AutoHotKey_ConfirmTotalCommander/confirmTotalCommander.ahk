@@ -6,19 +6,54 @@
 SysGet, virtualScreenWidth, 78 ;width
 SysGet, virtualScreenHeight, 79 ;height
 FileAppend virtualScreen-size is %virtualScreenWidth%:%virtualScreenHeight% `n, *
+FileAppend Current screen size %A_ScreenWidth%:%A_ScreenHeight% `n, *
 
+; used to trigger the final click
+confirmPosX = -1
+confirmPosY = -1
+
+; since the x-diff is currently -110, 0 or 110 pixels, I will just determine a factor: set to -1, 0 or 1
+factor = -2
+
+; do the image-search run with all three alternatives
 nr1x = -1
 nr1y = -1
-ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr1.bmp ; never use PNG!
-; TODO maybe greyscale later the picture to achive more precision with different color-schemes
 
-; TODO turn this into a function, so that only the string has to be handed over
-FileAppend Picture nr1 found at %nr1x%:%nr1y% `n, *
+if (factor == -2) {
+	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr1.bmp ; never use PNG!
+	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
+	FileAppend found something with nr1 `n, *
+	factor = -1
+}
+
+if (factor == -2) {
+	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr2.bmp ; never use PNG!
+	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
+	FileAppend found something with nr2 `n, *
+	factor = 0
+}
+
+if (factor == -2) {
+	ImageSearch, nr1x, nr1y, 0, 0, virtualScreenWidth, virtualScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr3.bmp ; never use PNG!
+	; TODO maybe greyscale later the picture to achive more precision with different color-schemes
+	FileAppend found something with nr3 `n, *
+	factor = 1
+}
+
 
 ; search on current monitor with maximum range
 ImageSearch, nr1x, nr1y, 0, 0, A_ScreenWidth, A_ScreenHeight, C:\Users\mpetrick\Desktop\AutoHotKey_ConfirmTotalCommander\nr2.bmp ; never use PNG!
 FileAppend Picture nr2 found at %nr1x%:%nr1y% `n, *
 
-MouseMove, nr1x, nr1y
+; MouseMove, nr1x, nr1y
 
 FileAppend Current screen size %A_ScreenWidth%:%A_ScreenHeight% `n, *
+
+; ControlClick, , "Total Commander", "2" ; not sure how to use this .. so we rely now on relative coords
+
+if (nr1x != -1 && nr1y != -1) {
+	FileAppend found something `n, *
+}
+else {
+	FileAppend found nothing `n, *
+}
